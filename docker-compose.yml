@@ -1,0 +1,17 @@
+volumes:
+  diplomadb:
+    external: true
+
+services:
+  db:
+    image: postgres:13.3
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGPORT: ${POSTGRES_PORT}
+    ports:
+      - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+    volumes:
+      - diplomadb:/var/lib/postgresql/data 
