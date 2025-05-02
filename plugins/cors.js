@@ -1,9 +1,10 @@
 'use strict'
 
 import fp from 'fastify-plugin'
+import cors from '@fastify/cors'
 
 export default fp(async function (fastify, opts) {
-  fastify.decorate('someSupport', function () {
-    return 'hugs'
+  fastify.register(cors, {
+    origin: '*'
   })
 })
