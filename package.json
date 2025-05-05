@@ -24,6 +24,7 @@
     "@fastify/sensible": "^6.0.0",
     "@fastify/type-provider-typebox": "^5.1.0",
     "@sinclair/typebox": "^0.34.33",
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.5.0",
     "drizzle-orm": "^0.43.1",
     "drizzle-typebox": "^0.3.2",
