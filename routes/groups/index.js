@@ -13,6 +13,7 @@ export default async function (fastify, opts) {
   fastify.post(
     "/",
     {
+      preHandler: [fastify.authenticate],
       schema: {
         body: PostGroupSchema,
         response: {
@@ -29,6 +30,7 @@ export default async function (fastify, opts) {
   fastify.get(
     "/",
     {
+      preHandler: [fastify.authenticate],
       schema: {
         response: {
           200: Type.Array(GroupSchema),

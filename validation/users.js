@@ -16,3 +16,10 @@ export const PostUserSchema = Type.Composite([
     password: Type.String({ minLength: 6 }),
   }),
 ]);
+
+export const LoginSchema = Type.Composite([
+  Type.Omit(UserSchema, ["id", "hash", "name"]),
+  Type.Object({
+    password: Type.String({ minLength: 6 }),
+  }),
+]);
