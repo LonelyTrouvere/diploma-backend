@@ -1,6 +1,8 @@
 "use strict";
 
+import { Type } from "@sinclair/typebox";
 import { createGroup, getGroups } from "../../controllers/groups.js";
+import { GroupSchema, PostGroupSchema } from "../../validation/groups.js";
 
 /**
  *
@@ -8,12 +10,34 @@ import { createGroup, getGroups } from "../../controllers/groups.js";
  * @param {Object} opts
  */
 export default async function (fastify, opts) {
-  fastify.post("/", {}, async function (request, reply) {
-    await createGroup(request.body.name);
-  });
+  fastify.post(
+    "/",
+    {
+      schema: {
+        body: PostGroupSchema,
+        response: {
+          200: Type.Object({ id: Type.String({ format: "uuid" }) }),
+        },
+      },
+    },
+    async function (request, reply) {
+      const id = await createGroup(request.body.name);
+      reply.send({ id });
+    }
+  );
 
-  fastify.get("/", {}, async function (request, reply) {
-    const res = await getGroups();
-    reply.send(res);
-  });
+  fastify.get(
+    "/",
+    {
+      schema: {
+        response: {
+          200: Type.Array(GroupSchema),
+        },
+      },
+    },
+    async function (request, reply) {
+      const res = await getGroups();
+      reply.send(res);
+    }
+  );
 }

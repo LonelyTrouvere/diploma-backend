@@ -8,7 +8,7 @@ export default fp(async function (fastify, opts) {
     const success = reply.statusCode >= 200 && reply.statusCode < 300
     done(err, JSON.stringify({
         success,
-        data: JSON.parse(payload),
+        data: payload ? JSON.parse(payload) : undefined,
     }));
 });
 });

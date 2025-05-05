@@ -7,6 +7,8 @@ export async function createGroup(name) {
     id,
     name,
   });
+
+  return id;
 }
 
 export async function getGroups() {
