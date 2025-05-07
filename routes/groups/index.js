@@ -22,7 +22,7 @@ export default async function (fastify, opts) {
       },
     },
     async function (request, reply) {
-      const id = await createGroup(request.body.name);
+      const id = await createGroup(request.body.name, request.user);
       reply.send({ id });
     }
   );
@@ -38,7 +38,8 @@ export default async function (fastify, opts) {
       },
     },
     async function (request, reply) {
-      const res = await getGroups();
+      const res = await getGroups(request.user);
+      console.log(res)
       reply.send(res);
     }
   );
