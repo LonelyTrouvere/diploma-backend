@@ -41,11 +41,20 @@ export default async function (fastify, opts) {
           path: "/",
           httpOnly: true,
           secure: true,
+          sameSite: "none",
         });
         reply.send({ token });
       } catch (e) {
         reply.badRequest(e.message);
       }
+    }
+  );
+
+  fastify.get(
+    "/",
+    { preHandler: [fastify.authenticate] },
+    async function (request, reply) {
+      reply.send(request.user);
     }
   );
 }
