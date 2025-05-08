@@ -1,7 +1,8 @@
-import { and, eq } from "drizzle-orm";
+import { and, eq, or } from "drizzle-orm";
 import { db } from "../drizzle/db.js";
 import { groupsToUsers } from "../drizzle/schema/groups-to-users.js";
 import { groups } from "../drizzle/schema/groups.js";
+import { users } from "../drizzle/schema/users.js";
 
 export async function createGroup(name, user) {
   const id = crypto.randomUUID();
@@ -23,6 +24,46 @@ export async function createGroup(name, user) {
 
 export async function updateGroup(data, groupUser) {
   await db.update(groups).set(data).where(eq(groups.id, groupUser.groups.id));
+}
+
+export async function updateGroupToUser(groupId, userId, data) {
+  await db
+    .update(groupsToUsers)
+    .set(data)
+    .where(
+      and(eq(groupsToUsers.groupId, groupId), eq(groupsToUsers.userId, userId))
+    );
+}
+
+export async function deleteGroupToUser(groupId, userId) {
+  await db
+    .delete(groupsToUsers)
+    .where(
+      and(eq(groupsToUsers.groupId, groupId), eq(groupsToUsers.userId, userId))
+    );
+}
+
+export async function getJoinRequests(user) {
+  const request = await db
+    .select({
+      joined: groupsToUsers.joined,
+      id: users.id,
+      name: users.name,
+      email: users.email,
+    })
+    .from(groupsToUsers)
+    .innerJoin(users, eq(users.id, groupsToUsers.userId))
+    .where(
+      and(
+        eq(groupsToUsers.groupId, user.groups.id),
+        or(
+          eq(groupsToUsers.status, "request_from_user"),
+          eq(groupsToUsers.status, "request_to_user")
+        )
+      )
+    );
+
+  return request;
 }
 
 export async function requestToJoin(data) {

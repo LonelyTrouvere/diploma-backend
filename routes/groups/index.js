@@ -3,10 +3,13 @@
 import { Type } from "@sinclair/typebox";
 import {
   createGroup,
+  deleteGroupToUser,
   getGroups,
+  getJoinRequests,
   getLoginGroup,
   requestToJoin,
   updateGroup,
+  updateGroupToUser,
 } from "../../controllers/groups.js";
 import {
   GroupSchema,
@@ -85,6 +88,16 @@ export default async function (fastify, opts) {
     }
   );
 
+  fastify.get(
+    "/join-requests",
+    { preHandler: [fastify.authenticate, fastify.checkRole] },
+    async function (request, reply) {
+      const requests = await getJoinRequests(request.user);
+      console.log(requests);
+      reply.send(requests);
+    }
+  );
+
   fastify.post(
     "/request-from-user",
     {
@@ -101,6 +114,44 @@ export default async function (fastify, opts) {
         userId: request.user.id,
         status: "request_from_user",
       });
+      reply.send({});
+    }
+  );
+
+  fastify.post(
+    "/accept",
+    {
+      preHandler: [fastify.authenticate, fastify.checkRole],
+      schema: {
+        body: Type.Object({
+          userId: Type.String({ format: "uuid" }),
+          groupId: Type.String({ format: "uuid" }),
+        }),
+      },
+    },
+    async (request, reply) => {
+      await updateGroupToUser(request.body.groupId, request.body.userId, {
+        role: "participant",
+        status: "active",
+        joined: new Date(),
+      });
+      reply.send({});
+    }
+  );
+
+  fastify.post(
+    "/decline",
+    {
+      preHandler: [fastify.authenticate, fastify.checkRole],
+      schema: {
+        body: Type.Object({
+          userId: Type.String({ format: "uuid" }),
+          groupId: Type.String({ format: "uuid" }),
+        }),
+      },
+    },
+    async (request, reply) => {
+      await deleteGroupToUser(request.body.groupId, request.body.userId);
       reply.send({});
     }
   );
