@@ -22,6 +22,20 @@
       "when": 1746657062138,
       "tag": "0002_crazy_colossus",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1746723342801,
+      "tag": "0003_round_klaw",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1746723673881,
+      "tag": "0004_brief_agent_brand",
+      "breakpoints": true
     }
   ]
 }
