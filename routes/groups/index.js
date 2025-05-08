@@ -72,6 +72,15 @@ export default async function (fastify, opts) {
     { preHandler: [fastify.groupAuthenticate], schema: { body: UpdateGroup } },
     async function (request, reply) {
       await updateGroup(request.body, request.user);
+      const group = await getLoginGroup(request.user, request.user.groups.id);
+      delete request.user.iat;
+      const token = request.jwt.sign({ ...request.user, ...group });
+      reply.setCookie("token", token, {
+        path: "/",
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+      });
       reply.send({});
     }
   );
