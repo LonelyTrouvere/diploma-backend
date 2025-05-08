@@ -56,7 +56,7 @@ export async function getParticipants(groupUser) {
 }
 
 export async function login(userData) {
-  const user = await getUser(userData.email);
+  const user = await getUser({ email: userData.email });
   const isMatch = user && (await bcrypt.compare(userData.password, user.hash));
 
   if (!user || !isMatch) {

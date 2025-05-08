@@ -5,7 +5,6 @@ import { client } from "./db.js";
 
 dotenv.config({ path: '.env' })
 async function main() {
-  console.log(process.env.POSTGRES_DB)
   await migrate(drizzle(client), {
     migrationsFolder: "./drizzle/migrations",
   });

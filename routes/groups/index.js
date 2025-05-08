@@ -117,7 +117,6 @@ export default async function (fastify, opts) {
     },
     async function (request, reply) {
       const res = await getGroups(request.user);
-      console.log(res);
       reply.send(res);
     }
   );
