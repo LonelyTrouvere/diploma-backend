@@ -1,7 +1,12 @@
 "use strict";
 
 import { Type } from "@sinclair/typebox";
-import { createUser, getUser, login } from "../../controllers/users.js";
+import {
+  createUser,
+  getParticipants,
+  getUser,
+  login,
+} from "../../controllers/users.js";
 import { LoginSchema, PostUserSchema } from "../../validation/users.js";
 
 /**
@@ -55,7 +60,7 @@ export default async function (fastify, opts) {
     { preHandler: [fastify.authenticate] },
     async (request, reply) => {
       reply.clearCookie("token", {
-        sameSite: 'none',
+        sameSite: "none",
         secure: true,
         path: "/",
         httpOnly: true,
@@ -69,6 +74,15 @@ export default async function (fastify, opts) {
     { preHandler: [fastify.authenticate] },
     async function (request, reply) {
       reply.send(request.user);
+    }
+  );
+
+  fastify.get(
+    "/participants",
+    { preHandler: [fastify.groupAuthenticate] },
+    async function (request, reply) {
+      const participants = await getParticipants(request.user);
+      reply.send(participants);
     }
   );
 }
