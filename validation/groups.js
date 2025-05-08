@@ -5,3 +5,4 @@ import { Type } from "@sinclair/typebox";
 export const GroupSchema = createSelectSchema(groups);
 
 export const PostGroupSchema = Type.Omit(GroupSchema, ["id"]);
+export const UpdateGroup = Type.Partial(Type.Omit(GroupSchema, ["id"]));

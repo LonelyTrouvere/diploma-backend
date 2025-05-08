@@ -21,6 +21,10 @@ export async function createGroup(name, user) {
   return id;
 }
 
+export async function updateGroup(data, user) {
+  await db.update(groups).set(data).where(eq(groups.id, user.groups.id));
+}
+
 export async function requestToJoin(data) {
   await db.insert(groupsToUsers).values({
     groupId: data.groupId,

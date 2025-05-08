@@ -6,8 +6,13 @@ import {
   getGroups,
   getLoginGroup,
   requestToJoin,
+  updateGroup,
 } from "../../controllers/groups.js";
-import { GroupSchema, PostGroupSchema } from "../../validation/groups.js";
+import {
+  GroupSchema,
+  PostGroupSchema,
+  UpdateGroup,
+} from "../../validation/groups.js";
 
 /**
  *
@@ -59,6 +64,15 @@ export default async function (fastify, opts) {
         sameSite: "none",
       });
       reply.send({ token });
+    }
+  );
+
+  fastify.post(
+    "/update",
+    { preHandler: [fastify.groupAuthenticate], schema: { body: UpdateGroup } },
+    async function (request, reply) {
+      await updateGroup(request.body, request.user);
+      reply.send({});
     }
   );
 
