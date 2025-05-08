@@ -50,6 +50,20 @@ export default async function (fastify, opts) {
     }
   );
 
+  fastify.post(
+    "/logout",
+    { preHandler: [fastify.authenticate] },
+    async (request, reply) => {
+      reply.clearCookie("token", {
+        sameSite: 'none',
+        secure: true,
+        path: "/",
+        httpOnly: true,
+      });
+      reply.send();
+    }
+  );
+
   fastify.get(
     "/",
     { preHandler: [fastify.authenticate] },
