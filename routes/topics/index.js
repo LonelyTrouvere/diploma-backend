@@ -2,7 +2,7 @@
 
 import { Type } from "@sinclair/typebox";
 import { PostTopicsSchema } from "../../validation/topics.js";
-import { createTopic } from "../../controllers/topics.js";
+import { createTopic, getTopics } from "../../controllers/topics.js";
 
 /**
  *
@@ -13,7 +13,7 @@ export default async function (fastify, opts) {
   fastify.post(
     "/",
     {
-      preHandler: [fastify.authenticate, fastify.checkRole],
+      preHandler: [fastify.groupAuthenticate, fastify.checkRole],
       schema: {
         body: PostTopicsSchema,
         response: { 200: Type.Object({ id: Type.String({ format: "uuid" }) }) },
@@ -22,6 +22,15 @@ export default async function (fastify, opts) {
     async function (request, reply) {
       const id = await createTopic(request.body, request.user);
       reply.send({ id });
+    }
+  );
+
+  fastify.get(
+    "/list",
+    { preHandler: [fastify.groupAuthenticate] },
+    async (request, reply) => {
+      const topics = await getTopics(request.user);
+      reply.send(topics);
     }
   );
 }

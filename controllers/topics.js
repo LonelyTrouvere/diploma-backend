@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import { db } from "../drizzle/db.js";
 import { topics } from "../drizzle/schema/index.js";
 
@@ -12,4 +13,13 @@ export async function createTopic(data, groupUser) {
   });
 
   return id;
+}
+
+export async function getTopics(groupUser) {
+  const topicList = await db
+    .select()
+    .from(topics)
+    .where(eq(topics.groupId, groupUser.groups.id));
+
+  return topicList;
 }
