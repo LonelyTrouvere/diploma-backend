@@ -1,0 +1,1 @@
+ALTER TABLE "topic" RENAME TO "topics";

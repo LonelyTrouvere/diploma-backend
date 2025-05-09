@@ -1,0 +1,1 @@
+ALTER TABLE "topics" DROP CONSTRAINT "topics_group_id_unique";
