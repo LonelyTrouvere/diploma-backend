@@ -1,0 +1,314 @@
+{
+  "id": "06ba1aac-1fe7-4435-adc9-91c59338ce08",
+  "prevId": "a6863152-a89f-42c3-9198-eac3e331679e",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.comments": {
+      "name": "comments",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "content": {
+          "name": "content",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "timestamp": {
+          "name": "timestamp",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "group_id": {
+          "name": "group_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "comments_group_id_groups_id_fk": {
+          "name": "comments_group_id_groups_id_fk",
+          "tableFrom": "comments",
+          "tableTo": "groups",
+          "columnsFrom": [
+            "group_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "comments_user_id_users_id_fk": {
+          "name": "comments_user_id_users_id_fk",
+          "tableFrom": "comments",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.groups_to_users": {
+      "name": "groups_to_users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "group_id": {
+          "name": "group_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "role",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "joined": {
+          "name": "joined",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "users_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "groups_to_users_user_id_users_id_fk": {
+          "name": "groups_to_users_user_id_users_id_fk",
+          "tableFrom": "groups_to_users",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "groups_to_users_group_id_groups_id_fk": {
+          "name": "groups_to_users_group_id_groups_id_fk",
+          "tableFrom": "groups_to_users",
+          "tableTo": "groups",
+          "columnsFrom": [
+            "group_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.groups": {
+      "name": "groups",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hash": {
+          "name": "hash",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "users_email_unique": {
+          "name": "users_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.topics": {
+      "name": "topics",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created": {
+          "name": "created",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "group_id": {
+          "name": "group_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "topics_group_id_groups_id_fk": {
+          "name": "topics_group_id_groups_id_fk",
+          "tableFrom": "topics",
+          "tableTo": "groups",
+          "columnsFrom": [
+            "group_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.role": {
+      "name": "role",
+      "schema": "public",
+      "values": [
+        "owner",
+        "admin",
+        "participant"
+      ]
+    },
+    "public.users_status": {
+      "name": "users_status",
+      "schema": "public",
+      "values": [
+        "request_to_user",
+        "request_from_user",
+        "active",
+        "blocked"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
