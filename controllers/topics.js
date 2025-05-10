@@ -23,3 +23,8 @@ export async function getTopics(groupUser) {
 
   return topicList;
 }
+
+export async function getTopic(topicId) {
+  const res = (await db.select().from(topics).where(eq(topics.id, topicId)))[0];
+  return res;
+}
