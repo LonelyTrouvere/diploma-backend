@@ -1,13 +1,13 @@
 "use strict";
 
 import { Type } from "@sinclair/typebox";
-import { PostTopicsSchema } from "../../validation/topics.js";
+import { PostTopicsSchema } from "../../../validation/topics.js";
 import {
   createTopic,
   deleteTopic,
   getTopic,
   getTopics,
-} from "../../controllers/topics.js";
+} from "../../../controllers/topics.js";
 
 /**
  *

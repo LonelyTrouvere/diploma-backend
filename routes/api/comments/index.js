@@ -1,8 +1,8 @@
 "use strict";
 
 import { Type } from "@sinclair/typebox";
-import { createComment } from "../../controllers/comments.js";
-import { PostCommentsSchema } from "../../validation/comments.js";
+import { createComment } from "../../../controllers/comments.js";
+import { PostCommentsSchema } from "../../../validation/comments.js";
 
 /**
  *

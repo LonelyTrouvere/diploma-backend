@@ -7,8 +7,8 @@ import {
   getParticipants,
   getUser,
   login,
-} from "../../controllers/users.js";
-import { LoginSchema, PostUserSchema } from "../../validation/users.js";
+} from "../../../controllers/users.js";
+import { LoginSchema, PostUserSchema } from "../../../validation/users.js";
 import { StreamClient } from "@stream-io/node-sdk";
 
 dotenv.config({ path: ".env" });

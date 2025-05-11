@@ -10,12 +10,12 @@ import {
   requestToJoin,
   updateGroup,
   updateGroupToUser,
-} from "../../controllers/groups.js";
+} from "../../../controllers/groups.js";
 import {
   GroupSchema,
   PostGroupSchema,
   UpdateGroup,
-} from "../../validation/groups.js";
+} from "../../../validation/groups.js";
 
 /**
  *
