@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "../drizzle/db.js";
-import { topics } from "../drizzle/schema/index.js";
+import { comments, topics } from "../drizzle/schema/index.js";
 import { getComments } from "./comments.js";
 
 export async function createTopic(data, groupUser) {
@@ -14,6 +14,11 @@ export async function createTopic(data, groupUser) {
   });
 
   return id;
+}
+
+export async function deleteTopic(topicId) {
+  await db.delete(comments).where(eq(comments.topicId, topicId));
+  await db.delete(topics).where(eq(topics.id, topicId));
 }
 
 export async function getTopics(groupUser) {
