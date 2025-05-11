@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "../drizzle/db.js";
 import { topics } from "../drizzle/schema/index.js";
+import { getComments } from "./comments.js";
 
 export async function createTopic(data, groupUser) {
   const id = crypto.randomUUID();
@@ -26,5 +27,9 @@ export async function getTopics(groupUser) {
 
 export async function getTopic(topicId) {
   const res = (await db.select().from(topics).where(eq(topics.id, topicId)))[0];
-  return res;
+  const comments = await getComments(res.id);
+  return {
+    ...res,
+    comments,
+  };
 }
