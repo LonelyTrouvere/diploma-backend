@@ -1,5 +1,6 @@
 "use strict";
 
+import dotenv from "dotenv";
 import { Type } from "@sinclair/typebox";
 import {
   createUser,
@@ -8,6 +9,9 @@ import {
   login,
 } from "../../controllers/users.js";
 import { LoginSchema, PostUserSchema } from "../../validation/users.js";
+import { StreamClient } from "@stream-io/node-sdk";
+
+dotenv.config({ path: ".env" });
 
 /**
  *
@@ -73,7 +77,26 @@ export default async function (fastify, opts) {
     "/",
     { preHandler: [fastify.authenticate] },
     async function (request, reply) {
-      reply.send(request.user);
+      const token = request.cookies.token;
+      reply.send({ ...request.user, token });
+    }
+  );
+
+  fastify.get(
+    "/generate-stream-token",
+    { preHandler: [fastify.authenticate] },
+    async function (request, reply) {
+      const streamKey = process.env.PUBLIC_STREAM_KEY;
+      const streamSecret = process.env.STREAM_SECRET;
+      const streamClient = new StreamClient(streamKey, streamSecret);
+      const exp = Math.floor(Date.now() / 1000) + 60 * 60;
+      const iat = Math.floor(Date.now() / 1000) - 60;
+      const token = streamClient.generateUserToken({
+        user_id: request.user.id,
+        exp,
+        iat,
+      });
+      reply.send({ token });
     }
   );
 
