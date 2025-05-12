@@ -1,4 +1,4 @@
-import { pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { boolean, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { groups } from "./groups.js";
 
 export const topics = pgTable("topics", {
@@ -7,4 +7,7 @@ export const topics = pgTable("topics", {
   description: varchar("description"),
   created: timestamp().notNull(),
   groupId: uuid("group_id").notNull().references(() => groups.id),
+  meetingId: uuid("meeting_id"),
+  recurring: boolean('recurring'),
+  meetingFirstDate: timestamp('meeting_first_date')
 });

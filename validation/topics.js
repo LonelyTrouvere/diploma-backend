@@ -8,4 +8,5 @@ export const PostTopicsSchema = Type.Omit(TopicsSchema, [
   "id",
   "groupId",
   "created",
+  "meetingFirstDate",
 ]);

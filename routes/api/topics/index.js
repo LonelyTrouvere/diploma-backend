@@ -7,6 +7,7 @@ import {
   deleteTopic,
   getTopic,
   getTopics,
+  updateTopic,
 } from "../../../controllers/topics.js";
 
 /**
@@ -66,4 +67,28 @@ export default async function (fastify, opts) {
       reply.send(topics);
     }
   );
+
+  fastify.post(
+    "/update",
+    {
+      preHandler: [fastify.groupAuthenticate, fastify.checkRole],
+      schema: {
+        body: Type.Object({
+          id: Type.String({ format: "uuid" }),
+          name: Type.Optional(Type.String()),
+          description: Type.Optional(Type.String()),
+          meeting: Type.Optional(Type.String({ format: "uuid" })),
+          description: Type.Optional(Type.String()),
+          meetingFirstDate: Type.Optional(Type.String()),
+          recurring: Type.Optional(Type.Boolean()),
+        }),
+      },
+    },
+    async function (request, reply) {
+      await updateTopic(request.body);
+      reply.send({});
+    }
+  );
+
+  fastify
 }

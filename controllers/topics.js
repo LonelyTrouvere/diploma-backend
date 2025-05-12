@@ -16,6 +16,10 @@ export async function createTopic(data, groupUser) {
   return id;
 }
 
+export async function updateTopic(data) {
+  await db.update(topics).set(data).where(eq(topics.id, data.id));
+}
+
 export async function deleteTopic(topicId) {
   await db.delete(comments).where(eq(comments.topicId, topicId));
   await db.delete(topics).where(eq(topics.id, topicId));
