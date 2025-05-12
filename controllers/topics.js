@@ -11,13 +11,20 @@ export async function createTopic(data, groupUser) {
     id,
     created: new Date(),
     groupId: groupUser.groups.id,
+    recurring: false,
   });
 
   return id;
 }
 
 export async function updateTopic(data) {
-  await db.update(topics).set(data).where(eq(topics.id, data.id));
+  await db
+    .update(topics)
+    .set({
+      ...data,
+      meetingFirstDate: new Date(data.meetingFirstDate),
+    })
+    .where(eq(topics.id, data.id));
 }
 
 export async function deleteTopic(topicId) {
