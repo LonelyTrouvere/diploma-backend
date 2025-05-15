@@ -11,7 +11,6 @@ export async function createTopic(data, groupUser) {
     id,
     created: new Date(),
     groupId: groupUser.groups.id,
-    recurring: false,
   });
 
   return id;
@@ -22,7 +21,6 @@ export async function updateTopic(data) {
     .update(topics)
     .set({
       ...data,
-      meetingFirstDate: new Date(data.meetingFirstDate),
     })
     .where(eq(topics.id, data.id));
 }

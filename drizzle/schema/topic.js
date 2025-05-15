@@ -8,6 +8,4 @@ export const topics = pgTable("topics", {
   created: timestamp().notNull(),
   groupId: uuid("group_id").notNull().references(() => groups.id),
   meetingId: uuid("meeting_id"),
-  recurring: boolean('recurring'),
-  meetingFirstDate: timestamp('meeting_first_date')
 });

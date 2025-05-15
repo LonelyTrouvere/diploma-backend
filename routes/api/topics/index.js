@@ -9,6 +9,7 @@ import {
   getTopics,
   updateTopic,
 } from "../../../controllers/topics.js";
+import { getEventList } from "../../../controllers/event.js";
 
 /**
  *
@@ -64,7 +65,11 @@ export default async function (fastify, opts) {
     },
     async (request, reply) => {
       const topics = await getTopic(request.query.id);
-      reply.send(topics);
+      const eventList = await getEventList(
+        { topicId: request.query.id },
+        request.user
+      );
+      reply.send({ ...topics, events: eventList });
     }
   );
 
@@ -79,8 +84,6 @@ export default async function (fastify, opts) {
           description: Type.Optional(Type.String()),
           meeting: Type.Optional(Type.String({ format: "uuid" })),
           description: Type.Optional(Type.String()),
-          meetingFirstDate: Type.Optional(Type.String()),
-          recurring: Type.Optional(Type.Boolean()),
         }),
       },
     },
@@ -89,6 +92,4 @@ export default async function (fastify, opts) {
       reply.send({});
     }
   );
-
-  fastify
 }
