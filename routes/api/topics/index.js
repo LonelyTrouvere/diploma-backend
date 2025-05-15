@@ -9,7 +9,7 @@ import {
   getTopics,
   updateTopic,
 } from "../../../controllers/topics.js";
-import { getEventList } from "../../../controllers/event.js";
+import { createEvent, getEventList } from "../../../controllers/event.js";
 
 /**
  *
@@ -28,6 +28,15 @@ export default async function (fastify, opts) {
     },
     async function (request, reply) {
       const id = await createTopic(request.body, request.user);
+      if(request.body.deadline) {
+        await createEvent({
+          description: request.body.name,
+          date: new Date(request.body.deadline),
+          type: 'deadline',
+          topicId: id,
+          recurring: false,
+        }, request.user)
+      }
       reply.send({ id });
     }
   );
