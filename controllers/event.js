@@ -15,13 +15,18 @@ export async function getEventList(data, groupUser) {
     .select()
     .from(events)
     .where(
-      and(
-        eq(events.groupId, groupUser.groups.id),
-        data.topicId ? eq(events.topicId, data.topicId) : undefined,
-        or(
-          data.before ? lte(events.date, data.before) : undefined,
-          data.after ? gte(events.date, data.after) : undefined,
-          eq(events.recurring, true)
+      or(
+        and(
+          eq(events.groupId, groupUser.groups.id),
+          data.topicId ? eq(events.topicId, data.topicId) : undefined
+        ),
+        and(
+          eq(events.groupId, groupUser.groups.id),
+          or(
+            data.before ? lte(events.date, data.before) : undefined,
+            data.after ? gte(events.date, data.after) : undefined,
+            eq(events.recurring, true)
+          )
         )
       )
     );
