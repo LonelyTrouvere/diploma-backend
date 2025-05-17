@@ -10,7 +10,7 @@
   "scripts": {
     "test": "node --test test/**/*.test.js",
     "start": "fastify start -l info app.js",
-    "dev": "fastify start -w -l info -P app.js",
+    "dev": "fastify start -w --ignore-watch='static' -l info -P app.js",
     "db:generate": "npx drizzle-kit generate",
     "db:migrate": "node ./drizzle/migrate.js",
     "db:studio": "npx drizzle-kit studio"
@@ -23,6 +23,7 @@
     "@fastify/cookie": "^11.0.2",
     "@fastify/cors": "^11.0.1",
     "@fastify/jwt": "^9.1.0",
+    "@fastify/multipart": "^9.0.3",
     "@fastify/sensible": "^6.0.0",
     "@fastify/swagger": "^9.5.1",
     "@fastify/swagger-ui": "^5.2.2",

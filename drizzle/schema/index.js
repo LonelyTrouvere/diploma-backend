@@ -5,3 +5,4 @@ export * from "./topic.js";
 export * from "./comments.js";
 export * from "./chat-message.js";
 export * from "./events.js";
+export * from "./attachment.js";
