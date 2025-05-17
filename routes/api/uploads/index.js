@@ -56,10 +56,14 @@ export default async function (fastify, opts) {
     },
     async function (request, reply) {
       const attachments = await getAttachments(request.query);
-      const file = await readFile(
-        `./static/${attachments[0].id}.${attachments[0].extension}`
-      );
-      reply.send(file);
+      const files = [];
+      for (const attach of attachments) {
+        const file = await readFile(
+          `./static/${attach.id}.${attach.extension}`
+        );
+        files.push(file);
+      }
+      reply.send(files);
     }
   );
 }
