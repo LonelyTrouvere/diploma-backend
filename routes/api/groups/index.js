@@ -138,6 +138,25 @@ export default async function (fastify, opts) {
     }
   );
 
+    fastify.post(
+    "/change-role",
+    {
+      preHandler: [fastify.groupAuthenticate, fastify.checkRole],
+      schema: {
+        body: Type.Object({
+          userId: Type.String({ format: "uuid" }),
+          role: Type.String(),
+        }),
+      },
+    },
+    async (request, reply) => {
+      await updateGroupToUser(request.user.groups.id, request.body.userId, {
+        role: request.body.role,
+      });
+      reply.send({});
+    }
+  );
+
   fastify.post(
     "/decline",
     {

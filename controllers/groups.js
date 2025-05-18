@@ -27,6 +27,7 @@ export async function updateGroup(data, groupUser) {
 }
 
 export async function updateGroupToUser(groupId, userId, data) {
+  console.log(groupId)
   await db
     .update(groupsToUsers)
     .set(data)
