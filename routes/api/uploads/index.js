@@ -73,8 +73,9 @@ export default async function (fastify, opts) {
           `./static/${attachment.id}.${attachment.extension}`
         );
         reply.send(file);
+      } else {
+        reply.notFound();
       }
-      reply.notFound();
     }
   );
 }
