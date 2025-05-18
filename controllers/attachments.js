@@ -13,3 +13,11 @@ export async function getAttachments(data) {
     .where(eq(attachments.topicId, data.topicId));
   return attachmentList;
 }
+
+export async function getAttachment(data) {
+  const attachmentList = await db
+    .select()
+    .from(attachments)
+    .where(eq(attachments.id, data.id));
+  return attachmentList[0];
+}

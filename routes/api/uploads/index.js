@@ -4,6 +4,7 @@ import fs from "fs";
 import util from "util";
 import {
   createAttachments,
+  getAttachment,
   getAttachments,
 } from "../../../controllers/attachments.js";
 
@@ -56,14 +57,24 @@ export default async function (fastify, opts) {
     },
     async function (request, reply) {
       const attachments = await getAttachments(request.query);
-      const files = [];
-      for (const attach of attachments) {
+      reply.send(attachments);
+    }
+  );
+
+  fastify.get(
+    "/file",
+    {
+      preHandler: [fastify.groupAuthenticate],
+    },
+    async function (request, reply) {
+      const attachment = await getAttachment(request.query);
+      if (attachment) {
         const file = await readFile(
-          `./static/${attach.id}.${attach.extension}`
+          `./static/${attachment.id}.${attachment.extension}`
         );
-        files.push(file);
+        reply.send(file);
       }
-      reply.send(files);
+      reply.notFound();
     }
   );
 }
