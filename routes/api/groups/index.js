@@ -72,7 +72,7 @@ export default async function (fastify, opts) {
 
   fastify.post(
     "/update",
-    { preHandler: [fastify.groupAuthenticate], schema: { body: UpdateGroup } },
+    { preHandler: [fastify.groupAuthenticate, fastify.checkRole], schema: { body: UpdateGroup } },
     async function (request, reply) {
       await updateGroup(request.body, request.user);
       const group = await getLoginGroup(request.user, request.user.groups.id);
