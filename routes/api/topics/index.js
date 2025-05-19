@@ -92,7 +92,6 @@ export default async function (fastify, opts) {
           name: Type.Optional(Type.String()),
           description: Type.Optional(Type.String()),
           meeting: Type.Optional(Type.String({ format: "uuid" })),
-          description: Type.Optional(Type.String()),
         }),
       },
     },
