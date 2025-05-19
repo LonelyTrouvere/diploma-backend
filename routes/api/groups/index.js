@@ -90,7 +90,7 @@ export default async function (fastify, opts) {
 
   fastify.get(
     "/join-requests",
-    { preHandler: [fastify.authenticate, fastify.checkRole] },
+    { preHandler: [fastify.groupAuthenticate, fastify.checkRole] },
     async function (request, reply) {
       const requests = await getJoinRequests(request.user);
       reply.send(requests);
